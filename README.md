@@ -8,7 +8,7 @@
 
 <div align="center">
     <sub>
-        Somthing sub discription.
+        This template using Typescript and React.
     </sub>
 </div>
 
