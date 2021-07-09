@@ -1,2 +1,2 @@
 # project-templates
-This is the my project templates.
+This is my project templates.
