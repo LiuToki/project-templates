@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionList>
+    <!-- Id属性はデバッグ対象のCEPエクステンションと同じIDを指定します -->
+    <Extension Id="react.typescript.cep.ext.ppro.panel">
+        <HostList>
+            <!-- ポート番号は任意の値でOKです -->
+            <Host Name="PPRO" Port="9000"/>
+        </HostList>
+    </Extension>
+</ExtensionList>
