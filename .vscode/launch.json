@@ -1,0 +1,15 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "pwa-msedge",
+			"request": "attach",
+            "name": "Attach to Premiere",
+            "port": 9000,
+            "webRoot": "${workspaceRoot}/client/src/index.html",
+            "sourceMapPathOverrides": {
+                "webpack:///*": "${workspaceRoot}/*"
+            }
+		}
+	]
+}
