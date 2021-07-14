@@ -18,12 +18,18 @@
         <Extension Id="react.typescript.cep.ext.ppro.panel">
             <DispatchInfo>
             <Resources>
-                <MainPath>./index.html</MainPath>
+                <MainPath>./client/index.html</MainPath>
+				<ScriptPath>./host/host.jsx</ScriptPath>
                 <CEFCommandLine />
             </Resources>
             <Lifecycle>
                 <AutoVisible>true</AutoVisible>
             </Lifecycle>
+            <CEFCommandLine>
+                <Parameter>--allow-file-access</Parameter>
+                <Parameter>--allow-file-access-from-files</Parameter>
+                <Parameter>--enable-nodejs</Parameter>
+            </CEFCommandLine>
             <UI>
                 <Type>Panel</Type>
 
