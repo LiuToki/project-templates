@@ -46,11 +46,14 @@ or
 Distribution directory structure.
 
     dist
+    ├client
+    │ ├client.js
+    │ └index.html
     ├CSXS
     │ └manifest.xml
-    ├index.html
-    ├client.js
-    └host.jsx
+    └host
+       ├host.jsx
+       └Premiere.jsx
 
 if you copy this folder to [extensions directory](https://github.com/Adobe-CEP/Samples/tree/master/TypeScript/PProPanel-vscode#3-put-panel-into-extensions-directory), you can check this extension's action.
 
