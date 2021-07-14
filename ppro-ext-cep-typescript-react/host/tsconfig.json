@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "allowJs": true,            // Allows JavaScript files to be compiled.
+        "strict": false,             // Shorthand for the following four options:
+        "module": "commonjs",
+        "noLib": true,
+        "esModuleInterop": true,
+        // "noImplicitAny": true,
+        // "noImplicitThis": true,
+        // "alwaysStrict": true,
+        // "strictNullChecks": true,
+        "target": "es3",             // In case TypeScript is used, this will compile to ECMAScript 3 (ExtendScript!) compatible code.
+        "types": [
+            "types-for-adobe/Premiere/2018",
+        ],
+        "rootDir": "./src",
+        "outDir": "../dist/host",
+        "jsx": "preserve"
+    },
+    "include": [
+        "src/**/*"
+    ]
+}
