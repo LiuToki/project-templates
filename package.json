@@ -4,10 +4,10 @@
 	"description": "Template for ppro-ext-cep-typescript-react.",
 	"main": "client/src/index.html",
 	"scripts": {
-		"build-dev": "npm run clean && npm run webpack-client -- --mode=development && npm run build-host && npm run copy-csxs && npm run copy-debug-file",
-		"build-prod": "npm run clean && npm run webpack-client -- --mode=production  && npm run build-host && npm run copy-csxs",
+		"build-dev": "npm run clean && npm run webpack-client -- --mode=development && npm run tsc-host && npm run copy-csxs && npm run copy-debug-file",
+		"build-prod": "npm run clean && npm run webpack-client -- --mode=production  && npm run tsc-host && npm run copy-csxs",
 		"webpack-client": "webpack --config webpack.config.client.js",
-		"build-host": "tsc -p ./host/tsconfig.json",
+		"tsc-host": "tsc -p ./host/tsconfig.json",
 		"copy-csxs": "cp -r ./CSXS/ ./dist/",
 		"copy-debug-file": "cp -r ./.debug ./dist/",
 		"clean": "rm -rf ./dist"
