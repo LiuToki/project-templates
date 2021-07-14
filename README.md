@@ -17,6 +17,10 @@
 ## Table of Contents
 - [Installation](#installation)
 - [Features](#features)
+- [Requirements](#requirements)
+- [Distribution](#distribution)
+- [Debug](#debug)
+- [Release](#release)
 - [Author](#author)
 - [LICENSE](#license)
 
@@ -34,6 +38,27 @@ or
 - babel
 - webpack
 - Adobe CEP for Premiere Pro
+
+## Requirements
+- nodejs and npm.
+
+## Distribution
+Distribution directory structure.
+
+    dist
+    ├CSXS
+    │ └manifest.xml
+    ├index.html
+    ├client.js
+    └host.jsx
+
+if you copy this folder to [extensions directory](https://github.com/Adobe-CEP/Samples/tree/master/TypeScript/PProPanel-vscode#3-put-panel-into-extensions-directory), you can check this extension's action.
+
+## Debug
+    npm run build-dev
+
+## Release
+    npm run build-release
 
 ## Author
 [LiuToki](https://github.com/LiuToki)
