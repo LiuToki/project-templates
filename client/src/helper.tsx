@@ -19,7 +19,7 @@ const EVAL_SCRIPT_ERROR_STRING: string = "EvalScript error.";
  * @returns Promise.
  */
 export const runEvalScript = (script: string) => {
-	return new Promise((resolve, reject) => {
+	return new Promise<string>((resolve, reject) => {
 		csInterface.evalScript(script, (result) => {
 			if (EVAL_SCRIPT_ERROR_STRING == result) {
 				reject(result);
