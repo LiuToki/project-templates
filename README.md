@@ -22,7 +22,7 @@
 
 # How to use
 1. Look at the following templates list.
-1. Switch branche what you want to use.
+1. Switch branch what you want to use.
 1. Clone or download zip.
 
 # Templates list
