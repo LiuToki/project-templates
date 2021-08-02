@@ -27,11 +27,9 @@
 
 # Templates list
 ## [typescript-react](https://github.com/LiuToki/project-templates/tree/typescript-react)
-### description
 This is the typescript + react template.
 
 ## [ppro-ext-cep-typescript-react](https://github.com/LiuToki/project-templates/tree/ppro-ext-cep-typescript-react)
-### description
 This is the typescript + react for Adobe Premiere Pro CEP template.
 
 ## Author
