@@ -38,4 +38,4 @@ This is the typescript + react for Adobe Premiere Pro CEP template.
 [LiuToki](https://github.com/LiuToki)
 
 ## License
-Please check for each project
+Please check for each project.
