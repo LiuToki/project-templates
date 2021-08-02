@@ -1,7 +1,7 @@
 <h1 align="center">Project Templates</h1>
 
 <div align="center">
-    <strong>Project Template Collections</strong>
+    <strong>Project Template Collection</strong>
 </div>
 
 <br/>
