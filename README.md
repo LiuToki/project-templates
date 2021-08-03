@@ -26,6 +26,9 @@
 1. Clone or download zip.
 
 # Templates list
+## [gas-typescript](https://github.com/LiuToki/project-templates/tree/gas-typescript)
+This is the typescript for Google Apps Script template.
+
 ## [typescript-react](https://github.com/LiuToki/project-templates/tree/typescript-react)
 This is the typescript + react template.
 
