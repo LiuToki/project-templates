@@ -1,0 +1,12 @@
+# ignore all files…
+**/**
+
+# except the extensions.
+!appsscript.json
+!**/*.gs
+!**/*.js
+!**/*.ts
+!**/*.html
+
+# ignore file for npm module.
+index.ts
