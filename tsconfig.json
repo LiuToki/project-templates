@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		// For GAS settings.
+		"lib": ["esnext"],
+		"target": "ES2019",
+		"module": "None",
+		"strict": true,
+		"experimentalDecorators": true,
+		// For making npm library settings.
+		"outDir": "lib",
+		"declaration": true,
+	},
+	"include": [
+		"src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+		"src/main.ts",
+		"lib/**/*"
+    ]
+}
