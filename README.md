@@ -27,13 +27,13 @@
 
 # Templates list
 ## [gas-typescript](https://github.com/LiuToki/project-templates/tree/gas-typescript)
-This is the typescript for Google Apps Script template.
+This is the typescript template for Google Apps Script.
 
 ## [typescript-react](https://github.com/LiuToki/project-templates/tree/typescript-react)
 This is the typescript + react template.
 
 ## [ppro-ext-cep-typescript-react](https://github.com/LiuToki/project-templates/tree/ppro-ext-cep-typescript-react)
-This is the typescript + react for Adobe Premiere Pro CEP template.
+This is the typescript + react template for Adobe Premiere Pro CEP.
 
 ## Author
 [LiuToki](https://github.com/LiuToki)
