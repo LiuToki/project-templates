@@ -17,8 +17,12 @@
 ## Table of Contents
 - [How to use](#how-to-use)
 - [Templates list](#templates-list)
-- [Author](#author)
-- [LICENSE](#license)
+	- [gas-typescript](#gas-typescript)
+	- [typescript-react](#typescript-react)
+	- [ppro-ext-cep-typescript-react](#ppro-ext-cep-typescript-react)
+	- [siv3d-windows](#siv3d-windows)
+	- [Author](#author)
+	- [License](#license)
 
 # How to use
 1. Look at the following templates list.
@@ -34,6 +38,9 @@ This is the typescript + react template.
 
 ## [ppro-ext-cep-typescript-react](https://github.com/LiuToki/project-templates/tree/ppro-ext-cep-typescript-react)
 This is the typescript + react template for Adobe Premiere Pro CEP.
+
+## [siv3d-windows](https://github.com/LiuToki/project-templates/tree/siv3d-windows)
+This is the C++ siv3d template.
 
 ## Author
 [LiuToki](https://github.com/LiuToki)
