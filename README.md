@@ -39,6 +39,9 @@ This is the typescript + react template for Adobe Premiere Pro CEP.
 ## [siv3d-windows](https://github.com/LiuToki/project-templates/tree/siv3d-windows)
 This is the C++ siv3d template.
 
+## [typescript-nextjs-pwa](https://github.com/LiuToki/project-templates/tree/typescript-nextjs-pwa)
+This is the typescript + next.js template.
+
 ## [typescript-react](https://github.com/LiuToki/project-templates/tree/typescript-react)
 This is the typescript + react template.
 
