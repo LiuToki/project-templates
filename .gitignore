@@ -4,9 +4,6 @@
 # testing
 /coverage
 
-# production
-/dist
-
 # next.js build output
 .next
 
