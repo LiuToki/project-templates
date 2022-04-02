@@ -33,14 +33,14 @@
 ## [gas-typescript](https://github.com/LiuToki/project-templates/tree/gas-typescript)
 This is the typescript template for Google Apps Script.
 
-## [typescript-react](https://github.com/LiuToki/project-templates/tree/typescript-react)
-This is the typescript + react template.
-
 ## [ppro-ext-cep-typescript-react](https://github.com/LiuToki/project-templates/tree/ppro-ext-cep-typescript-react)
 This is the typescript + react template for Adobe Premiere Pro CEP.
 
 ## [siv3d-windows](https://github.com/LiuToki/project-templates/tree/siv3d-windows)
 This is the C++ siv3d template.
+
+## [typescript-react](https://github.com/LiuToki/project-templates/tree/typescript-react)
+This is the typescript + react template.
 
 ## Author
 [LiuToki](https://github.com/LiuToki)
