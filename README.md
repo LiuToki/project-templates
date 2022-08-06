@@ -33,6 +33,19 @@ or
 - CMake
 - vcpkg
 
+## Initialize
+```
+$ git submodule init
+```
+
+## Build
+```
+$ mkdir build
+$ cd build
+$ cmake -G Ninja ..
+$ ninja
+```
+
 ## Author
 [LiuToki](https://github.com/LiuToki)
 
