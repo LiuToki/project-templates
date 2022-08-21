@@ -1,0 +1,49 @@
+{
+    "version": "2.0.0",
+    "windows": {
+        "options": {
+            "shell": {
+                "executable": "cmd.exe",
+                "args": [
+                    "/C",
+                    "\"C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/VsDevCmd.bat\"",
+                    "&&"
+                ]
+            },
+            "cwd": "${workspaceFolder}/build"
+        }
+    },
+    "linux": {
+        "options": {
+            "shell": {
+                "executable": "sh",
+                "args": ["-c"]
+            },
+            "cwd": "${workspaceFolder}/build"
+        }
+    },
+    "tasks": [
+        {
+            "label": "CMake - Debug",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Debug", "${workspaceFolder}"
+            ]
+        },
+        {
+            "label": "Ninja - Debug",
+            "type": "shell",
+            "command": "ninja",
+            "args": [],
+            "dependsOn": "CMake - Debug"
+        },
+        {
+            "label": "msbuild - Debug",
+            "type": "shell",
+            "command": "msbuild",
+            "args": ["cpp-vcpkg", "-t:cpp-vcpkg:Rebuild", "-p:Configuration=debug", "-p:Platform=x64"],
+            "dependsOn": "CMake - Debug"
+        }
+    ]
+}
