@@ -5,7 +5,7 @@ set(VCPKG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/libs/vcpkg)
 
 # Compile settings
 enable_language(CXX)
-set(CMAKE_CXX_STANDARD 17) # C++17...
+set(CMAKE_CXX_STANDARD 20) # C++20...
 set(CMAKE_CXX_STANDARD_REQUIRED ON) #...is required...
 set(CMAKE_CXX_EXTENSIONS OFF) #...without compiler extensions like gnu++11
 
@@ -28,6 +28,8 @@ if(MSVC)
 		set(VCPKG_TARGET_TRIPLET "x64-windows" CACHE STRING "")
 	else()
 		set(VCPKG_TARGET_TRIPLET "x64-windows-static" CACHE STRING "")
+		# Release ビルドの時は"/MT" でビルド.
+		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 	endif()
 elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
 	# Update if necessary
@@ -37,12 +39,12 @@ endif()
 
 # Use vcpkg toolchain file
 # 公式だとENV{} で環境変数のVCPKG を参照するが、プロジェクトのやつを参照したいのでそのまま参照.
-# if(DEFINED VCPKG_ROOT AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-# 	set(CMAKE_TOOLCHAIN_FILE ${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake CACHE STRING "Vcpkg toolchain file")
-# 	message(STATUS "Set CMAKE_TOOLCHAIN_FILE to vcpkg.cmake")
-# endif()
+if(DEFINED VCPKG_ROOT AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+	set(CMAKE_TOOLCHAIN_FILE ${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake CACHE STRING "Vcpkg toolchain file")
+	message(STATUS "Set CMAKE_TOOLCHAIN_FILE to vcpkg.cmake")
+endif()
 # 結局のところこっちじゃないとライブラリ見つけられなくてエラー吐く.
-include(${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
+# include(${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
 
 # Set project settings
 set(PROJECT_NAME cpp-vcpkg)    # TODO:Project Name
@@ -76,9 +78,19 @@ add_executable(${PROJECT_NAME}
 	${CXX_FILES}
 )
 
+# Include
+set(INCS
+    # ${OpenCV_INCLUDE_DIRS}
+)
+include_directories(${PROJECT_NAME})
+
 # Link libraries
 set(LIBS
 #	${Boost_LIBRARIES}
 )
 
+# include_directories(${Boost_INCLUDE_DIRS})
+
+# static link
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBS})
+set_target_properties(${PROJECT_NAME} PROPERTIES VS_USER_PROPS ${VCPKG_ROOT}/scripts/buildsystems/msbuild/vcpkg.targets)
