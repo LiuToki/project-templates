@@ -17,6 +17,7 @@
 ## Table of Contents
 - [How to use](#how-to-use)
 - [Templates list](#templates-list)
+	- [cpp-vcpkg](#cpp-vcpkg)
 	- [gas-typescript](#gas-typescript)
 	- [typescript-react](#typescript-react)
 	- [ppro-ext-cep-typescript-react](#ppro-ext-cep-typescript-react)
@@ -30,6 +31,9 @@
 1. Clone or download zip.
 
 # Templates list
+## [cpp-vcpkg](https://github.com/LiuToki/project-templates/tree/master/cpp-vcpkg)
+This is the cpp template with vcpkg.
+
 ## [gas-typescript](https://github.com/LiuToki/project-templates/tree/gas-typescript)
 This is the typescript template for Google Apps Script.
 
