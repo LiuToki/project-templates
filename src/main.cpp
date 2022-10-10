@@ -1,8 +1,13 @@
-#include <iostream>
 #include "pico/stdlib.h"
 
 int main() {
-    setup_default_uart();
-	std::cout <<"Hello, world!" << std::endl;
-    return 0;
+	const uint LED_PIN = 25;
+	gpio_init(LED_PIN);
+	gpio_set_dir(LED_PIN, GPIO_OUT);
+	unsigned char blink = 1;
+	while (true) {
+		gpio_put(LED_PIN, blink);
+		blink ^= 1;
+		sleep_ms(500);
+	}
 }
