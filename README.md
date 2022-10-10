@@ -23,6 +23,7 @@
 - [LICENSE](#license)
 
 ## Requirements
+### packages
 ```
 $ sudo apt install git cmake gcc-arm-none-eabi gcc g++ libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib build-essential ninja-build
 ```
@@ -38,13 +39,23 @@ $ sudo apt install git cmake gcc-arm-none-eabi gcc g++ libnewlib-arm-none-eabi l
     $ wget https://github.com/LiuToki/project-templates/archive/refs/heads/rp2040-cpp-dev.zip
     $ unzip rp2040-cpp-dev.zip
 
-clone or copy [pico-sdk](https://github.com/raspberrypi/pico-sdk) into libs as pico-sdk.
+clone or copy [pico-sdk](https://github.com/raspberrypi/pico-sdk) into libs as pico-sdk.  
+And `git submodule update --init` on the root of pico-sdk.
 
 ## How to Build
+### Release
 ```
 $ mkdir build
 $ cd build
 $ cmake -G Ninja ..
+$ ninja
+```
+
+### Debug
+```
+$ mkdir build
+$ cd build
+$ cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ..
 $ ninja
 ```
 
