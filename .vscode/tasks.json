@@ -47,6 +47,13 @@
             "dependsOn": "CMake - Debug"
         },
         {
+            "label": "Ninja - Release",
+            "type": "shell",
+            "command": "ninja",
+            "args": [],
+            "dependsOn": "CMake - Release"
+        },
+        {
             "label": "msbuild - Debug",
             "type": "shell",
             "command": "msbuild",
