@@ -5,36 +5,22 @@
       "generator": "Ninja",
       "configurationType": "Debug",
       "inheritEnvironments": [ "msvc_x64_x64" ],
-      "buildRoot": "${projectDir}\\build\\${name}",
+      "buildRoot": "${projectDir}\\build",
       "installRoot": "${projectDir}\\install\\${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
-      "ctestCommandArgs": "",
-      "variables": [
-        {
-          "name": "CMAKE_INSTALL_PREFIX",
-          "value": "E:/Production/project-templates/install/x64-Debug",
-          "type": "PATH"
-        }
-      ]
+      "ctestCommandArgs": ""
     },
     {
       "name": "x64-Release",
       "generator": "Ninja",
-      "configurationType": "RelWithDebInfo",
-      "buildRoot": "${projectDir}\\build\\${name}",
+      "configurationType": "Release",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\build",
       "installRoot": "${projectDir}\\install\\${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
-      "ctestCommandArgs": "",
-      "inheritEnvironments": [ "msvc_x64_x64" ],
-      "variables": [
-        {
-          "name": "CMAKE_INSTALL_PREFIX",
-          "value": "E:/Production/project-templates/install/x64-Release",
-          "type": "PATH"
-        }
-      ]
+      "ctestCommandArgs": ""
     }
   ]
 }
