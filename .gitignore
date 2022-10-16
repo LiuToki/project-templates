@@ -35,6 +35,7 @@
 build
 debug
 release
+.vs
 
 # External
-vcpkg
+
