@@ -24,7 +24,7 @@ if(MSVC)
 	else()
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 	endif()
-	if (CMAKE_BUILD_TYPE EQUAL "Debug")
+	if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
 		set(VCPKG_TARGET_TRIPLET "x64-windows" CACHE STRING "")
 	else()
 		set(VCPKG_TARGET_TRIPLET "x64-windows-static" CACHE STRING "")
@@ -53,7 +53,11 @@ project(${PROJECT_NAME})
 ## project function set PROJECT_SOURCE_DIR to CMakefile.txt directory, so update path
 set(PROJECT_SOURCE_DIR "${PROJECT_SOURCE_DIR}/src")
 
-set(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+	set(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/Debug)
+else()
+	set(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/Release)
+endif()
 
 # Boost settings.
 # If needed.
