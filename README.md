@@ -32,6 +32,7 @@ or
     $ unzip cpp-vcpkg.zip
 
 ## Features
+- x86_64
 - C++
 - CMake
 - vcpkg
