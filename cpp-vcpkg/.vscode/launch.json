@@ -36,7 +36,7 @@
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}/build",
 			"environment": [],
-			"externalConsole": false,
+			"console": "internalConsole",
 			"preLaunchTask": "Ninja - Debug"
 		}
 	]

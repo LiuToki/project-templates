@@ -15,13 +15,16 @@
 <br/>
 
 ## Table of Contents
+- [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Features](#features)
+- [Initialize](#initialize)
+- [Build](#build)
 - [Author](#author)
-- [LICENSE](#license)
+- [License](#license)
 
 ## Installation
-    $ git clone -b typescript-react https://github.com/LiuToki/project-templates.git
+    $ git clone -b cpp-vcpkg https://github.com/LiuToki/project-templates.git
 
 or
 
@@ -29,6 +32,7 @@ or
     $ unzip cpp-vcpkg.zip
 
 ## Features
+- x86_64
 - C++
 - CMake
 - vcpkg
