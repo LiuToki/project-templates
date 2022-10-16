@@ -32,6 +32,14 @@
             ]
         },
         {
+            "label": "CMake - Release",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Release", "${workspaceFolder}"
+            ]
+        },
+        {
             "label": "Ninja - Debug",
             "type": "shell",
             "command": "ninja",
@@ -44,6 +52,13 @@
             "command": "msbuild",
             "args": ["cpp-vcpkg", "-t:cpp-vcpkg:Rebuild", "-p:Configuration=debug", "-p:Platform=x64"],
             "dependsOn": "CMake - Debug"
+        },
+        {
+            "label": "msbuild - Release",
+            "type": "shell",
+            "command": "msbuild",
+            "args": ["cpp-vcpkg", "-t:cpp-vcpkg:Rebuild", "-p:Configuration=release", "-p:Platform=x64"],
+            "dependsOn": "CMake - Release"
         }
     ]
 }
