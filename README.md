@@ -40,14 +40,12 @@ or
 ## Initialize
 ```
 $ git submodule init
+$ git submodule update
 ```
 
 ## Build
 ```
-$ mkdir build
-$ cd build
-$ cmake -G Ninja ..
-$ ninja
+$ cmake --build --preset <preset_name>
 ```
 
 ## Author

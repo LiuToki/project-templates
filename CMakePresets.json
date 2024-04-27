@@ -1,0 +1,153 @@
+{
+	"version": 5,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 24,
+		"patch": 0
+	},
+	"configurePresets": [
+		{
+			"name": "base",
+			"description": "The base settings",
+			"hidden": true,
+			"generator": "Visual Studio 17 2022",
+			"binaryDir": "${sourceDir}/build/${presetName}",
+			"cacheVariables": {
+				"CMAKE_TOOLCHAIN_FILE": {
+					"value": "${sourceDir}/libs/vcpkg/scripts/buildsystems/vcpkg.cmake",
+					"type": "FILEPATH"
+				}
+			},
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Windows"
+			}
+		},
+		{
+			"name": "windows-x64-debug",
+			"displayName": "Windows x64 Debug Dynamic",
+			"description": "Sets MSVC generator, compilers, x64 architecture, build and install directory, debug build type",
+			"inherits": "base",
+			"architecture": {
+				"value": "x64",
+				"strategy": "external"
+			},
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug",
+				"VCPKG_TARGET_TRIPLET": "x64-windows",
+				"VCPKG_HOST_TRIPLET": "x64-windows"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [ "Windows" ]
+				}
+			}
+		},
+		{
+			"name": "windows-x64-release",
+			"displayName": "Windows x64 Release Static",
+			"description": "Sets MSVC generator, compilers, x64 architecture, build and install directory, release build type",
+			"inherits": "windows-x64-debug",
+			"installDir": "${sourceDir}/bin",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"VCPKG_TARGET_TRIPLET": "x64-windows-static",
+				"VCPKG_HOST_TRIPLET": "x64-windows-static"
+			}
+		},
+		{
+			"name": "linux-x64-debug",
+			"displayName": "Linux x64 Debug Dynamic",
+			"description": "Sets Ninja generator, compilers, x64 architecture, build and install directory, debug build type",
+			"generator": "Ninja",
+			"architecture": {
+				"value": "x64",
+				"strategy": "external"
+			},
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug",
+				"CMAKE_C_COMPILER": "gcc",
+				"CMAKE_CXX_COMPILER": "g++",
+				"VCPKG_TARGET_TRIPLET": "x64-linux",
+				"VCPKG_HOST_TRIPLET": "x64-linux"
+			},
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Linux"
+			}
+		},
+		{
+			"name": "linux-x64-release",
+			"displayName": "Linux x64 Release Static",
+			"description": "Sets Ninja generator, compilers, x64 architecture, build and install directory, release build type",
+			"inherits": "linux-x64-debug",
+			"installDir": "${sourceDir}/bin",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"VCPKG_TARGET_TRIPLET": "x64-linux-static",
+				"VCPKG_HOST_TRIPLET": "x64-linux-static"
+			}
+		}
+	],
+	"buildPresets": [
+		{
+			"name": "windows-x64-debug",
+			"displayName": "Debug",
+			"description": "Windows x64 Debug",
+			"configurePreset": "windows-x64-debug"
+		},
+		{
+			"name": "verbose-windows-x64-debug",
+			"displayName": "Debug",
+			"description": "Verbose Windows x64 Debug",
+			"configurePreset": "windows-x64-debug",
+			"nativeToolOptions": [ "-v" ]
+		},
+		{
+			"name": "windows-x64-release",
+			"displayName": "Release",
+			"description": "Windows x64 Release",
+			"configurePreset": "windows-x64-release"
+		},
+		{
+			"name": "linux-x64-debug",
+			"displayName": "Debug",
+			"description": "Linux x64 Debug",
+			"configurePreset": "linux-x64-debug"
+		},
+		{
+			"name": "verbose-linux-x64-debug",
+			"displayName": "Debug",
+			"description": "Verbose Linux x64 Debug",
+			"configurePreset": "linux-x64-debug",
+			"nativeToolOptions": [ "-v" ]
+		},
+		{
+			"name": "linux-x64-release",
+			"displayName": "Release",
+			"description": "Linux x64 Release",
+			"configurePreset": "linux-x64-release"
+		}
+	],
+	"testPresets": [
+		{
+			"name": "test-windows-x64",
+			"description": "Enable output on failure",
+			"configurePreset": "windows-x64-debug",
+			"output": {
+				"outputOnFailure": true
+			},
+			"execution": {
+				"noTestsAction": "error",
+				"stopOnFailure": true
+			}
+		},
+		{
+			"name": "test-linux-x64",
+			"inherits": "test-windows-x64",
+			"configurePreset": "linux-x64-debug"
+		}
+	]
+}
