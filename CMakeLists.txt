@@ -1,69 +1,39 @@
-cmake_minimum_required(VERSION 3.12.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.24.0 FATAL_ERROR)
+
+# プロパティ設定
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Vcpkg path. Not to set to envirment paths.
 set(VCPKG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/libs/vcpkg)
-
-# Compile settings
-enable_language(CXX)
-set(CMAKE_CXX_STANDARD 20) # C++20...
-set(CMAKE_CXX_STANDARD_REQUIRED ON) #...is required...
-set(CMAKE_CXX_EXTENSIONS OFF) #...without compiler extensions like gnu++11
-
-# Build type
-if(NOT CMAKE_BUILD_TYPE)
-	set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
-endif()
-
-message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
-
-# Update compiler settings.
-if(MSVC)
-	# Force to always compile with W4
-	if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
-		string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-	else()
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
-	endif()
-	if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-		set(VCPKG_TARGET_TRIPLET "x64-windows" CACHE STRING "")
-		set(CMAKE_RUNTIME_OUTPUT_DIRECTORY Debug)
-	else()
-		set(VCPKG_TARGET_TRIPLET "x64-windows-static" CACHE STRING "")
-		# Release ビルドの時は"/MT" でビルド.		
-		if(CMAKE_CXX_FLAGS_RELEASE MATCHES "/MD")
-			string(REGEX REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
-		else()
-			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-		endif()
-		# Map ファイルを生成.
-		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /MAP")
-		set(CMAKE_RUNTIME_OUTPUT_DIRECTORY Release)
-	endif()
-elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-	# Update if necessary
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-long-long -pedantic")
-	set(VCPKG_TARGET_TRIPLET "x64-linux" CACHE STRING "")
-endif()
-
-# Use vcpkg toolchain file
-# 公式だとENV{} で環境変数のVCPKG を参照するが、プロジェクトのやつを参照したいのでそのまま参照.
-if(DEFINED VCPKG_ROOT AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-	set(CMAKE_TOOLCHAIN_FILE ${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake CACHE STRING "Vcpkg toolchain file")
-	message(STATUS "Set CMAKE_TOOLCHAIN_FILE to vcpkg.cmake")
-endif()
-# 結局のところこっちじゃないとライブラリ見つけられなくてエラー吐く.
-# include(${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
+message(STATUS "VCPKG_ROOT: ${VCPKG_ROOT}")
 
 # Set project settings
 set(PROJECT_NAME cpp-vcpkg)    # TODO:Project Name
-project(${PROJECT_NAME})
+project(${PROJECT_NAME} VERSION 0.1.0)	# Set Project Version.
 
-## project function set PROJECT_SOURCE_DIR to CMakefile.txt directory, so update path
-set(PROJECT_SOURCE_DIR "${PROJECT_SOURCE_DIR}/src")
+# 言語の指定.
+enable_language(CXX)
+if (USE_CUDA)
+	enable_language(CUDA)
+endif()
 
+# Build type
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "vcpkg target: ${VCPKG_TARGET_TRIPLET}")
+message(STATUS "vcpkg host: ${VCPKG_HOST_TRIPLET}")
+
+# 出力先はbuild ディレクトリ.
 set(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
 
-# Boost settings.
+# Use vcpkg toolchain file
+message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE}")
+
+# 基本戦略としてここでライブラリなど外部のものをセッティングする
+
+# ---------------------------------------------------------------------------
+# Boost
+# ---------------------------------------------------------------------------
+
 # If needed.
 #set(Boost_USE_STATIC_LIBS        ON) # only find static libs
 #set(Boost_USE_MULTITHREADED      ON)
@@ -73,32 +43,8 @@ set(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
 # boost は最後に探しにいかないとCOMPONENTS に指定したやつが無視される(他のBoost を参照しているライブラリでFindBoost 呼ばれてBoost_LIBRARIES の設定上書きされてしまうような感じ？).
 #find_package(Boost COMPONENTS log log_setup REQUIRED)	# https://cmake.org/cmake/help/git-master/module/FindBoost.html
 
-# Input files
-file(GLOB_RECURSE CXX_FILES ${PROJECT_SOURCE_DIR}/*.cpp)
-file(GLOB_RECURSE H_FILES ${PROJECT_SOURCE_DIR}/*.h)
+# ---------------------------------------------------------------------------
+# source files
+# ---------------------------------------------------------------------------
 
-source_group("Header Files" FILES ${H_FILES})
-source_group("Source Files" FILES ${CXX_FILES})
-
-# Compile
-add_executable(${PROJECT_NAME}
-	${H_FILES}
-	${CXX_FILES}
-)
-
-# Include
-set(INCS
-    # ${OpenCV_INCLUDE_DIRS}
-)
-include_directories(${PROJECT_NAME})
-
-# Link libraries
-set(LIBS
-#	${Boost_LIBRARIES}
-)
-
-# include_directories(${Boost_INCLUDE_DIRS})
-
-# static link
-target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBS})
-set_target_properties(${PROJECT_NAME} PROPERTIES VS_USER_PROPS ${VCPKG_ROOT}/scripts/buildsystems/msbuild/vcpkg.targets)
+add_subdirectory(src)
