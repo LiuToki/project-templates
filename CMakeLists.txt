@@ -44,7 +44,7 @@ message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE}")
 #find_package(Boost COMPONENTS log log_setup REQUIRED)	# https://cmake.org/cmake/help/git-master/module/FindBoost.html
 
 # ---------------------------------------------------------------------------
-# source files
+# cpp-vcpkg
 # ---------------------------------------------------------------------------
 
-add_subdirectory(src)
+add_subdirectory(cpp-vcpkg)

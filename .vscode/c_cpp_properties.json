@@ -4,7 +4,7 @@
             "name": "Linux",
             "includePath": [
                 "/usr/include",
-                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/cpp-vcpkg/**",
                 "${workspaceFolder}/libs/vcpkg/installed/x64-linux/include"
             ],
             "browse": {
@@ -12,7 +12,7 @@
                 "databaseFilename": "",
                 "path": [
                     "/usr/include",
-                    "${workspaceFolder}/src/**",
+                    "${workspaceFolder}/cpp-vcpkg/**",
                     "${workspaceFolder}/libs/vcpkg/installed/x64-linux/include"
                 ]
             },
@@ -24,23 +24,24 @@
         {
             "name": "Win32(x64)",
             "includePath": [
-                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/cpp-vcpkg/**",
                 "${workspaceFolder}/libs/vcpkg/installed/x64-windows/include"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": "",
                 "path": [
-                    "${workspaceFolder}/src/**",
+                    "${workspaceFolder}/cpp-vcpkg/**",
                     "${workspaceFolder}/libs/vcpkg/installed/x64-windows/include"
                 ]
             },
             "defines": [],
-            "windowsSdkVersion": "10.0.22621.0",    // 使っているバージョンに変更すること.
+            "windowsSdkVersion": "10.0.22621.0",
             "intelliSenseMode": "msvc-x64",
-            "compilerPath": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.32.31326/bin/Hostx64/x64/cl.exe", // 使ってるコンパイラに変更すること.
+            "compilerPath": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.32.31326/bin/Hostx64/x64/cl.exe",
             "cStandard": "c17",
-            "cppStandard": "c++20"
+            "cppStandard": "c++20",
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4
