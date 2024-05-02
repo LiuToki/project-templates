@@ -40,14 +40,12 @@ or
 ## Initialize
 ```
 $ git submodule init
+$ git submodule update
 ```
 
 ## Build
 ```
-$ mkdir build
-$ cd build
-$ cmake -G Ninja ..
-$ ninja
+$ cmake --build --preset <preset_name>
 ```
 
 ## Author
@@ -55,3 +53,7 @@ $ ninja
 
 ## License
 [MIT](./LICENCE)
+
+# 開発者向け
+## フォルダ分けについて
+ルートディレクトリにプロジェクトごとにフォルダを作るようにしました
