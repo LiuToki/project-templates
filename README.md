@@ -53,3 +53,7 @@ $ cmake --build --preset <preset_name>
 
 ## License
 [MIT](./LICENCE)
+
+# 開発者向け
+## フォルダ分けについて
+ルートディレクトリにプロジェクトごとにフォルダを作るようにしました
