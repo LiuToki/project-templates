@@ -1,0 +1,19 @@
+*.rc binary diff=utf-16
+*.cpp -text
+*.h -text
+*.hpp -text
+.gitlab-ci.yml -text
+
+# 念のため、画像ファイルも明示的に設定しておく
+*.jpg -text
+*.jpeg -text
+*.png -text
+*.bmp -text
+*.tiff -text
+
+# 念のため、その他バイナリファイルも設定しておく
+*.dll -text
+*.exe -text
+*.lib -text
+*.moespecs -text
+*.wav -text
