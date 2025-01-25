@@ -15,11 +15,13 @@ configure_file(
 
 # Header files
 set(H_FILES
-	version.h)
+#	version.h
+)
 
 # Source files
 set(CXX_FILES
-	main.cpp)
+	main.cpp
+)
 
 # フィルタリング(ルートでUSE_FOLDERSのプロパティ設定してあること！)
 source_group("Header Files" FILES ${H_FILES})
@@ -29,14 +31,27 @@ source_group("Source Files" FILES ${CXX_FILES})
 add_executable(${PROJECT_NAME}
 	${H_FILES}
 	${CXX_FILES}
-	$<$<CXX_COMPILER_ID:MSVC>: ${CMAKE_CURRENT_BINARY_DIR}/resource.rc>
 )
+
+if(MSVC)
+  target_sources(${PROJECT_NAME}
+    PRIVATE
+      ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
+  )
+endif()
 
 # Include
 set(INCS
     # ${OpenCV_INCLUDE_DIRS}
 )
-include_directories(${PROJECT_NAME})
+
+# version.hはバイナリが生成されるディレクトリでひっぱる
+target_include_directories(${PROJECT_NAME}
+PRIVATE
+  "${CMAKE_CURRENT_BINARY_DIR}"
+# PUBLIC <foo> や INTERFACE <bar> といった指定も必要に応じて
+)
+# include_directories(${PROJECT_NAME})
 
 # Link libraries
 set(LIBS
@@ -51,14 +66,12 @@ set_target_properties(${PROJECT_NAME} PROPERTIES VS_USER_PROPS ${VCPKG_ROOT}/scr
 
 # Options
 # C++の標準規格の指定.
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_23)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
 
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
   target_compile_options(${PROJECT_NAME} PUBLIC -Wno-unused-parameter)
-endif()
-
-if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
-  target_compile_definitions(${PROJECT_NAME} PUBLIC -W4)
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE -W4)
 
   target_compile_options(${PROJECT_NAME} PRIVATE "-permissive-")
   target_compile_options(${PROJECT_NAME} PRIVATE "-EHsc")

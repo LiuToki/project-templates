@@ -44,7 +44,14 @@ $ git submodule update
 ```
 
 ## Build
+- CMake >= 3.21
 ```
+$ cmake --build --preset <preset_name>
+```
+
+- otherwise
+```
+$ cmake --preset <preset_name>
 $ cmake --build --preset <preset_name>
 ```
 
