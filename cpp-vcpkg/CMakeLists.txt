@@ -8,6 +8,7 @@ set(VCPKG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/libs/vcpkg)
 message(STATUS "VCPKG_ROOT: ${VCPKG_ROOT}")
 
 # Set project settings
+# プロジェクト名と実行ファイル名は分けることが多いらしい.
 set(PROJECT_NAME cpp-vcpkg)    # TODO:Project Name
 project(${PROJECT_NAME} VERSION 0.1.0)	# Set Project Version.
 
@@ -23,7 +24,10 @@ message(STATUS "vcpkg target: ${VCPKG_TARGET_TRIPLET}")
 message(STATUS "vcpkg host: ${VCPKG_HOST_TRIPLET}")
 
 # 出力先はbuild ディレクトリ.
-set(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
+# set(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
 # Use vcpkg toolchain file
 message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE}")
