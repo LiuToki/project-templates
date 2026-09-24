@@ -1,0 +1,52 @@
+# case	exit	operation	file	before	after	diagnostic
+valid	0	noop	-	-	-	-
+missing_owner	1	replace	@SPEC@	owners:	# owners:	owners must
+invalid_date	1	replace	@SPEC@	20260924	20260230	updated must
+unquoted_date	1	replace	@SPEC@	updated: "20260924"	updated: 20260924	updated must
+duplicate_doc	1	copy	@SPEC@	-	@SPEC2@	duplicate doc_id
+duplicate_requirement	1	replace	@SPEC@	F002	F001	duplicate row ID
+invalid_row_state	1	replace	@SPEC@	Current	Draft	invalid requirement ID or state
+placeholder	1	append	@SPEC@	-	\n{{missing}}\n	unfilled placeholder
+inline_placeholder	1	append	@SPEC@	-	\n`{{missing}}`\n	unfilled placeholder
+multiline_placeholder	1	append	@SPEC@	-	\n{{missing\nvalue}}\n	unfilled placeholder
+fenced_example	0	append	@SPEC@	-	\n```text\n{{missing}}\n[x](missing.md)\n<!--\n```\n	-
+comment_example	0	append	@SPEC@	-	\n<!-- {{missing}}\n[x](missing.md)\n-->\n	-
+broken_link	1	append	@SPEC@	-	\n[x](missing.md)\n	link target does not exist
+reference_link	1	append	@SPEC@	-	\n[x][guide]\n[guide]: missing.md\n	reference-style links are unsupported
+link_title	1	append	@SPEC@	-	\n[x](../README.md "title")\n	link destination must
+encoded_link	0	put	guide note(1).md	-	# Guide\n	-
+encoded_link	0	append	@SPEC@	-	\n[x](../guide%20note%281%29.md)\n	-
+missing_index	1	remove	index.md	-	-	required entry document
+draft_index	1	replace	@SPEC@	status: Active	status: Draft	index link requires
+draft_exception	0	replace	@SPEC@	status: Active	status: Draft	-
+draft_exception	0	replace	index.md	-port-check.md)	-port-check.md) (Draft: review) 	-
+empty_exception	1	replace	@SPEC@	status: Active	status: Draft	index link requires
+empty_exception	1	replace	index.md	-port-check.md)	-port-check.md) (Draft: )	index link requires
+legacy_valid	0	replace	@ADR@	decision_date: "20260924"	decision_date: null\nlegacy_record: true\nlegacy_note: "unknown in imported record"	-
+legacy_invalid	1	replace	@ADR@	decision_date: "20260924"	decision_date: null	can be null only
+legacy_without_unknown	1	replace	@ADR@	type: adr	type: adr\nlegacy_record: true\nlegacy_note: "known date and makers"	legacy record needs
+missing_decision_makers	1	replace	@ADR@	decision_makers:	# decision_makers:	decision_makers must
+block_yaml	1	replace	@SPEC@	owners: ["Port Check保守チーム"]	owners:\n  - "Port Check保守チーム"	unsupported
+escaped_yaml	1	replace	@SPEC@	type: spec	type: "sp\qec"	unsupported or invalid value
+duplicate_key	1	replace	@SPEC@	type: spec	type: spec\ntype: spec	duplicate metadata key
+unknown_key	1	replace	@SPEC@	type: spec	type: spec\ncustom: value	unsupported metadata key
+single_quotes	0	replace	@SPEC@	type: spec	type: 'spec' # note	-
+trace	0	replace	@SPEC@	type: spec	type: spec\ntrace:\n  req: ["REQ-1"]	-
+missing_successor	1	replace	@ADR@	type: adr	type: adr\nsupersedes: ["DEMO-GLOBAL-ADR-0099"]	target ADR does not exist
+superseded_without_target	1	replace	@ADR@	status: Active	status: Superseded	Superseded state
+replacement_valid	0	copy	@ADR@	-	@ADR2@	-
+replacement_valid	0	replace	@ADR2@	DEMO-GLOBAL-ADR-0001	DEMO-GLOBAL-ADR-0002	-
+replacement_valid	0	replace	@ADR@	status: Active	status: Superseded\nsuperseded_by: ["DEMO-GLOBAL-ADR-0002"]	-
+replacement_valid	0	replace	@ADR2@	type: adr	type: adr\nsupersedes: ["DEMO-GLOBAL-ADR-0001"]	-
+replacement_one_way	1	copy	@ADR@	-	@ADR2@	lacks reciprocal
+replacement_one_way	1	replace	@ADR2@	DEMO-GLOBAL-ADR-0001	DEMO-GLOBAL-ADR-0002	lacks reciprocal
+replacement_one_way	1	replace	@ADR@	status: Active	status: Superseded\nsuperseded_by: ["DEMO-GLOBAL-ADR-0002"]	lacks reciprocal
+replacement_cycle	1	copy	@ADR@	-	@ADR2@	cycle in ADR replacement
+replacement_cycle	1	replace	@ADR2@	DEMO-GLOBAL-ADR-0001	DEMO-GLOBAL-ADR-0002	cycle in ADR replacement
+replacement_cycle	1	replace	@ADR@	status: Active	status: Superseded\nsuperseded_by: ["DEMO-GLOBAL-ADR-0002"]\nsupersedes: ["DEMO-GLOBAL-ADR-0002"]	cycle in ADR replacement
+replacement_cycle	1	replace	@ADR2@	status: Active	status: Superseded\nsupersedes: ["DEMO-GLOBAL-ADR-0001"]\nsuperseded_by: ["DEMO-GLOBAL-ADR-0001"]	cycle in ADR replacement
+template_skipped	0	put	spec/_template.md	-	{{template}}\n	-
+nested_template_checked	1	put	spec/nested/_template.md	-	{{not exempt}}\n	front matter must start
+duplicate_term	1	put	glossary/DEMO-GLOBAL-GLOSSARY-0001-terms.md	-	---\ndoc_id: "DEMO-GLOBAL-GLOSSARY-0001"\ntitle: "Terms"\ntype: glossary\nstatus: Active\nowners: ["Team"]\nupdated: "20260924"\n---\n| ID | 状態 | 後継ID |\n|---|---|---|\n| T001 | Active | なし |\n| T001 | Active | なし |\n	duplicate row ID
+missing_term	1	put	glossary/DEMO-GLOBAL-GLOSSARY-0001-terms.md	-	---\ndoc_id: "DEMO-GLOBAL-GLOSSARY-0001"\ntitle: "Terms"\ntype: glossary\nstatus: Active\nowners: ["Team"]\nupdated: "20260924"\n---\n| ID | 状態 | 後継ID |\n|---|---|---|\n| T001 | Deprecated | T002 |\n	successor term ID does not exist
+valid_term	0	put	glossary/DEMO-GLOBAL-GLOSSARY-0001-terms.md	-	---\ndoc_id: "DEMO-GLOBAL-GLOSSARY-0001"\ntitle: "Terms"\ntype: glossary\nstatus: Active\nowners: ["Team"]\nupdated: "20260924"\n---\n| ID | 状態 | 後継ID |\n|---|---|---|\n| T001 | Deprecated | T002 |\n| T002 | Active | なし |\n	-
