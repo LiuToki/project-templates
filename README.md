@@ -65,7 +65,7 @@ Windowsは標準のWindows PowerShell 5.1以上、LinuxはBash 4以上と`find`�
 追加のプログラミング言語・モジュール・ライブラリは導入しない。検査はオフラインで動作し、文書を書き換えない。
 両実装は同じ検査規則と共通テストケースを使う。汎用的なYAML・Markdownパーサーではなく、下記の対応記法を検査する。
 
-このテンプレート集を検査する場合（リポジトリ直下で実行）:
+このテンプレート集を検査する場合:
 
 ```powershell
 .\scripts\check-docs.ps1 -Template
