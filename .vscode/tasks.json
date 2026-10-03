@@ -23,49 +23,124 @@
         }
     },
     "tasks": [
-        {
-            "label": "CMake - Debug",
-            "type": "shell",
-            "command": "cmake",
-            "args": [
-                "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Debug", "${workspaceFolder}"
-            ]
-        },
-        {
-            "label": "CMake - Release",
-            "type": "shell",
-            "command": "cmake",
-            "args": [
-                "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Release", "${workspaceFolder}"
-            ]
-        },
-        {
-            "label": "Ninja - Debug",
-            "type": "shell",
-            "command": "ninja",
-            "args": [],
-            "dependsOn": "CMake - Debug"
-        },
-        {
-            "label": "Ninja - Release",
-            "type": "shell",
-            "command": "ninja",
-            "args": [],
-            "dependsOn": "CMake - Release"
-        },
-        {
-            "label": "msbuild - Debug",
-            "type": "shell",
-            "command": "msbuild",
-            "args": ["cpp-vcpkg", "-t:cpp-vcpkg:Rebuild", "-p:Configuration=debug", "-p:Platform=x64"],
-            "dependsOn": "CMake - Debug"
-        },
-        {
-            "label": "msbuild - Release",
-            "type": "shell",
-            "command": "msbuild",
-            "args": ["cpp-vcpkg", "-t:cpp-vcpkg:Rebuild", "-p:Configuration=release", "-p:Platform=x64"],
-            "dependsOn": "CMake - Release"
+    // -----------------------------
+    // Windows Debug ビルド
+    // -----------------------------
+    {
+        "label": "build-windows-x64-debug",
+        "type": "shell",
+        "command": "cmake",
+        "args": [
+            "--build",
+            "--preset",
+            "windows-x64-debug"
+        ],
+        // VSCodeの「実行」ボタンでビルド動作として扱いたい場合:
+        "group": {
+            "kind": "build",
+            "isDefault": true
         }
+    },
+    // -----------------------------
+    // Windows Verbose Debug ビルド
+    // -----------------------------
+    {
+        "label": "build-windows-x64-debug-verbose",
+        "type": "shell",
+        "command": "cmake",
+        "args": [
+            "--build",
+            "--preset",
+            "windows-x64-debug-verbose"
+        ],
+        // VSCodeの「実行」ボタンでビルド動作として扱いたい場合:
+        "group": {
+            "kind": "build",
+            "isDefault": true
+        }
+    },
+    // -----------------------------
+    // Windows Release ビルド
+    // -----------------------------
+    {
+        "label": "build-windows-x64-release",
+        "type": "shell",
+        "command": "cmake",
+        "args": [
+            "--build",
+            "--preset",
+            "windows-x64-release"
+        ],
+        "group": "build"
+    },
+    // -----------------------------
+    // Linux Debug ビルド
+    // -----------------------------
+    {
+        "label": "build-linux-x64-debug",
+        "type": "shell",
+        "command": "cmake",
+        "args": [
+            "--build",
+            "--preset",
+            "linux-x64-debug"
+        ],
+        "group": "build"
+    },
+    // -----------------------------
+    // Linux Verbose Debug ビルド
+    // -----------------------------
+    {
+        "label": "build-linux-x64-debug-verbose",
+        "type": "shell",
+        "command": "cmake",
+        "args": [
+            "--build",
+            "--preset",
+            "linux-x64-debug-verbose"
+        ],
+        "group": "build"
+    },
+    // -----------------------------
+    // Linux Release ビルド
+    // -----------------------------
+    {
+        "label": "build-linux-x64-release",
+        "type": "shell",
+        "command": "cmake",
+        "args": [
+            "--build",
+            "--preset",
+            "linux-x64-release"
+        ],
+        "group": "build"
+    },
+    // -----------------------------
+    // Windows Test
+    // -----------------------------
+    {
+        "label": "test-windows-x64",
+        "type": "shell",
+        "command": "ctest",
+        "args": [
+            "--preset",
+            "test-windows-x64"
+        ],
+        "group": {
+            "kind": "test",
+            "isDefault": true
+        },
+        "problemMatcher": []
+    },
+    {
+        "label": "test-linux-x64",
+        "type": "shell",
+        "command": "ctest",
+        "args": [
+            "--preset",
+            "test-linux-x64"
+        ],
+        "problemMatcher": []
+    }
     ]
 }

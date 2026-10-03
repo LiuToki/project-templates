@@ -5,14 +5,16 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			// For Linux.
-			"name": "C++ Launch(Linux)",
+			// -----------------------------
+			// Linux Debug
+			// -----------------------------
+			"name": "Launch Linux Debug",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceFolder}/build/cpp-vcpkg",
+			"program": "${workspaceFolder}/build/linux-x64-debug/cpp-vcpkg",
 			"args": [],
 			"stopAtEntry": false,
-			"cwd": "${workspaceFolder}/build",
+			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
 			"MIMode": "gdb",
@@ -23,21 +25,100 @@
 					"ignoreFailures": true
 				}
 			],
-			"preLaunchTask": "Ninja - Debug",
+			"preLaunchTask": "build-linux-x64-debug",
 			"miDebuggerPath": "/usr/bin/gdb"
 		},
 		{
-			// For Windows.
-			"name": "C++ Launch (Windows)",
-			"type": "cppvsdbg",
+			// -----------------------------
+			// Linux Debug (Verbose)
+			// -----------------------------
+			"name": "Launch Linux Debug (Verbose)",
+			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceRoot}/build/Debug/cpp-vcpkg.exe",
+			"program": "${workspaceFolder}/build/linux-x64-debug-verbose/cpp-vcpkg",
 			"args": [],
 			"stopAtEntry": false,
-			"cwd": "${workspaceFolder}/build",
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{
+					"description": "gdb の再フォーマットを有効にする",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				}
+			],
+			"preLaunchTask": "build-linux-x64-debug-verbose",
+			"miDebuggerPath": "/usr/bin/gdb"
+		},
+		{
+			// -----------------------------
+			// Linux Test
+			// -----------------------------
+			"name": "Run Tests on Linux",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "/bin/bash",
+			"args": [
+				"-c",
+				"echo 'Tests finished.' && read -p 'Press Enter to close...'"
+			],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"preLaunchTask": "test-linux-x64",
+			"miDebuggerPath": "/usr/bin/gdb"
+		},
+		{
+			// -----------------------------
+			// Windows Debug
+			// -----------------------------
+			"name": "Launch Windows Debug",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "${workspaceRoot}/build/windows-x64-debug/Debug/cpp-vcpkg.exe",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"console": "internalConsole",
-			"preLaunchTask": "Ninja - Debug"
+			"preLaunchTask": "build-windows-x64-debug"
+		},
+		{
+			// -----------------------------
+			// Windows Debug (Verbose)
+			// -----------------------------
+			"name": "Launch Windows Debug (Verbose)",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "${workspaceRoot}/build/windows-x64-debug-verbose/Debug/cpp-vcpkg.exe",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"console": "internalConsole",
+			"preLaunchTask": "build-windows-x64-debug-verbose"
+		},
+		{
+			// -----------------------------
+			// Windows Test
+			// -----------------------------
+			"name": "Run Tests on Windows",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "C:\\Windows\\System32\\cmd.exe",
+			"args": [
+				"/c",
+				"echo Tests finished. Press any key to close... & pause"
+			],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"console": "internalConsole",
+			"preLaunchTask": "test-windows-x64"
 		}
 	]
 }
