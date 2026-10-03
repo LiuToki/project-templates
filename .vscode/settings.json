@@ -78,6 +78,7 @@
 		"unordered_set": "cpp",
 		"regex": "cpp",
 		"slist": "cpp",
-		"scoped_allocator": "cpp"
+		"scoped_allocator": "cpp",
+		"*.in": "c"
 	}
 }

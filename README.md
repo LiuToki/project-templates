@@ -43,6 +43,7 @@ cpp-vcpkgでは下記のパッケージが必要になります。
 - clone
 ```
 $ git submodule init
+$ git submodule update
 ```
 - zip  
 ```
@@ -52,11 +53,15 @@ $ git submodule add https://github.com/microsoft/vcpkg.git libs/vcpkg
 ```
 
 ## Build
+- CMake >= 3.21
 ```
-$ mkdir build
-$ cd build
-$ cmake -G Ninja ..
-$ ninja
+$ cmake --build --preset <preset_name>
+```
+
+- otherwise
+```
+$ cmake --preset <preset_name>
+$ cmake --build --preset <preset_name>
 ```
 
 ## Author
@@ -64,3 +69,7 @@ $ ninja
 
 ## License
 [MIT](./LICENCE)
+
+# 開発者向け
+## フォルダ分けについて
+ルートディレクトリにプロジェクトごとにフォルダを作るようにしました

@@ -1,0 +1,10 @@
+#ifndef VERSION_H_
+#define VERSION_H_
+
+static inline constexpr const char* CPP_VCPKG_MAJOR_VERSION = "@PROJECT_VERSION_MAJOR@";
+static inline constexpr const char* CPP_VCPKG_MINOR_VERSION = "@PROJECT_VERSION_MINOR@";
+static inline constexpr const char* CPP_VCPKG_PATCH_VERSION = "@PROJECT_VERSION_PATCH@";
+
+static inline constexpr const char* CPP_VCPKG_VERSION_STRING = "@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@";
+
+#endif  // VERSION_H_
