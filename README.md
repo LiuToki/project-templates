@@ -15,31 +15,40 @@
 <br/>
 
 ## Table of Contents
-- [Table of Contents](#table-of-contents)
+- [Requirements](#requirements)
 - [Installation](#installation)
-- [Features](#features)
 - [Initialize](#initialize)
 - [Build](#build)
 - [Author](#author)
 - [License](#license)
 
-## Installation
-    $ git clone -b cpp-vcpkg https://github.com/LiuToki/project-templates.git
-
-or
-
-    $ wget https://github.com/LiuToki/project-templates/archive/refs/heads/cpp-vcpkg.zip
-    $ unzip cpp-vcpkg.zip
-
-## Features
-- x86_64
+## Requirements
+cpp-vcpkgでは下記のパッケージが必要になります。
 - C++
-- CMake
+- CMake >= 3.14
 - vcpkg
 
+## Installation
+- clone  
+```  
+    $ git clone -b cpp-vcpkg https://github.com/LiuToki/project-templates.git  
+```
+
+- zip  
+```
+    $ wget https://github.com/LiuToki/project-templates/archive/refs/heads/cpp-vcpkg.zip  
+    $ unzip cpp-vcpkg.zip
+```
 ## Initialize
+- clone
 ```
 $ git submodule init
+```
+- zip  
+```
+$ git init
+$ git submodule init
+$ git submodule add https://github.com/microsoft/vcpkg.git libs/vcpkg
 ```
 
 ## Build
