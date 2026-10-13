@@ -1,36 +1,35 @@
 ---
 doc_id: "{{PROJECT}}-{{SCOPE}}-ADR-{{NNNN}}"
-title: "{{採用または不採用とした結論}}"
+title: "{{提案する方針または確定した判断}}"
 type: adr
-status: Active
-decision_target: "{{肯定形の判断対象。例: 通信方式にWebSocketを採用する}}"
-outcome: "{{Adopted / NotAdopted}}"
+status: Proposed
 owners: ["{{担当者またはチーム}}"]
 updated: "{{YYYYMMDD}}"
-decision_date: "{{YYYYMMDD}}"
-decision_makers: ["{{判断した担当者またはチーム}}"]
+# decision_date: "{{AcceptedまたはRejectedに確定した日。YYYYMMDD}}"
+# decision_makers: ["{{確定時に判断した人間の担当者またはチーム}}"]
 # 過去の判断を遡及記録し、判断日または判断主体が不明な場合だけ有効化する。
 # legacy_record: true
 # legacy_note: "{{不明な情報とその理由}}"
 # 不明な項目は推測せず、decision_date: null または decision_makers: null とする。
 # 別スコープにも影響する場合だけ使う。IDのSCOPEは採番時の分類として固定する。
 # affects: ["{{影響するスコープ}}"]
-# 現在ActiveのADRを置き換えるときだけ有効化する。値はファイル名ではなくdoc_id。
+# Acceptedへの確定時に旧ADRを置き換えるときだけ有効化する。値はファイル名ではなくdoc_id。
 # supersedes: ["{{旧ADRのdoc_id}}"]
 # superseded_by: ["{{後継ADRのdoc_id}}"]
 ---
 
-# {{採用または不採用とした結論}}
+# {{提案する方針または確定した判断}}
 
 <!--
 コピー先: docs/adr/<doc_id>-<固定slug>.md
 一つの検討課題とその結論を、1ファイルにまとめる。単独で撤回・置換できる単位にする。
-検討途中に作らず、AdoptedまたはNotAdoptedの判断を確定してから記録する。
-判断対象は否定を含まない肯定形で書き、outcomeはその判断対象に対する採否とする。
-採用しなかった候補ごとにNotAdoptedのADRを作らず、同じ判断の代替案として残す。
+レビュー可能な具体案ができた時点でProposedとして作成する。質問・反論・実験・作業はIssue・PR等で追跡する。
+Proposedでは判断日・判断者・過去記録例外・置換関係の項目を省略する。AcceptedまたはRejectedへの確定時にdecision_dateとdecision_makersを有効化して記入する。
+Acceptedは本文の判断への合意を示し、不導入・延期・現状維持も含む。RejectedはADRとして提案した方針を却下した記録とする。
+採用しなかった候補ごとにRejectedのADRを作らず、通常は同じ判断の代替案として残す。
 主に「背景・制約・判断基準」「決定・理由」「検討した代替案」「効果・制約・負担」「確認方法・見直し条件」を記入する。
 確定した結論と当時の理由は、後から別の内容に書き換えない。
-タイトルは「通信方式の検討」より「監視はSSE、制御はRESTとする」「通信方式にWebSocketは採用しない」のように結論を示す。
+タイトルは「通信方式の検討」より「監視はSSE、制御はRESTとする」「通信方式にWebSocketは採用しない」のように提案する方針・確定した判断を示す。Rejectedでは却下した提案だと分かるタイトルにする。
 -->
 
 ## 背景・制約・判断基準
@@ -44,8 +43,9 @@ decision_makers: ["{{判断した担当者またはチーム}}"]
 
 ## 決定・理由
 
-{{Adoptedならdecision_targetをどこに適用し、何には適用しないのかを明記する。
-NotAdoptedならdecision_targetを実施しないこと、その理由、代わりに維持・採用する方針があればその内容を明記する。}}
+{{Proposedなら提案する方針・適用範囲・合意前に解消すべき論点を明記する。
+Acceptedなら合意した方針と適用範囲を明記する。不導入・延期・現状維持も判断として記載する。
+Rejectedなら却下した提案内容と却下理由を残す。現在有効な方針が別のADRにある場合はリンクする。}}
 
 {{この制約と優先順位のもとで、他の選択肢と比べて、なぜこの結論が妥当だと判断したのか。
 「一般的」「高性能」「モダン」だけで理由を終えない。}}
@@ -60,7 +60,7 @@ NotAdoptedならdecision_targetを実施しないこと、その理由、代わ�
 
 | 候補 | この条件での利点 | 欠点・不確実性 | 扱いと理由 |
 |---|---|---|---|
-| {{判断対象または採用案}} | {{利点}} | {{欠点・不確実性}} | {{Selected / Dismissed / OutOfScopeとその理由}} |
+| {{提案または採用する方針}} | {{利点}} | {{欠点・不確実性}} | {{Selected / Dismissed / OutOfScopeとその理由。Proposedは暫定評価と明記し、未評価なら未評価と記す。}} |
 | {{他に検討した案}} | {{利点}} | {{欠点・不確実性}} | {{Dismissed / OutOfScopeとその理由}} |
 
 ## 効果・制約・負担
@@ -80,13 +80,14 @@ NotAdoptedならdecision_targetを実施しないこと、その理由、代わ�
 
 {{対象SPEC、根拠となるRESEARCHや一次資料、実装Issue・PRへのリンク。}}
 
-{{Activeは実装完了を意味しない。実装の進捗はIssue・PR等で管理し、ここに転記しない。}}
+{{Acceptedは実装完了を意味しない。実装の進捗はIssue・PR等で管理し、ここに転記しない。
+後継となる提案は旧ADRへ本文でリンクし、置換予定を示す。Acceptedへの確定時に置換関係を設定する。}}
 
 <!--
 後日必要になった場合だけ次の節を追加する。
 ## 追記
 YYYYMMDD: {{新たに分かったこと・訂正内容・根拠。元の判断時点の記述は残す。}}
-結論または適用範囲を実質的に変更する場合は、新ADRで置き換える。
+Acceptedの結論または適用範囲を実質的に変更する場合は、新ADRで置き換える。Rejectedの再提案は新ADRから本文で参照し、旧ADRの状態は維持する。Deprecatedでは廃止日と理由を追記する。
 -->
 
 ## AI利用記録
