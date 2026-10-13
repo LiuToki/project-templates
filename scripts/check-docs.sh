@@ -174,7 +174,7 @@ scan_file() {
     local comment=0 fence='' fence_len=0 content before after id state header=0 id_col=-1 state_col=-1 successor_col=-1 i target
     local key_re='^([a-z_]+):[[:space:]]*(.*)$' trace_re='^  req:[[:space:]]*(.*)$'
     local placeholder='\{\{.*\}\}' fence_re='^[ ]{0,3}(`{3,}|~{3,})(.*)$'
-    local link_re='!?\[[^][]*\]\(([^()]*)\)' reference_re='\[[^][]]+\]\[[^][]]*\]|^[ ]{0,3}\[[^][]]+\]:'
+    local link_re='!?\[[^][]*\]\(([^()]*)\)' reference_re='\[[^][]+\]\[[^][]*\]|^[ ]{0,3}\[[^][]+\]:'
     local -a cells=()
     ((count+=1))
     while IFS= read -r line || [[ -n $line ]]; do
@@ -238,7 +238,7 @@ scan_file() {
             raw=${raw/"$before"/}
         done
         [[ $raw != *']('* ]] || error "$file" "$n" 'unsupported or malformed link; encode parentheses/spaces in the destination'
-        if [[ -n $kind && $content == \|* ]]; then
+        if [[ $kind == glossary && $content == \|* ]]; then
             raw=${content//\\|/$'\035'}; IFS='|' read -r -a cells <<< "$raw"
             for i in "${!cells[@]}"; do trim "${cells[$i]}"; cells[$i]=${value//\`/}; done
             if [[ ${cells[1]-} == ID ]]; then
@@ -251,15 +251,11 @@ scan_file() {
             if (( header && id_col >= 0 && state_col >= 0 )); then
                 id=${cells[$id_col]-}; state=${cells[$state_col]-}
                 [[ $id != *---* ]] || continue
-                case $kind in
-                    spec) [[ $id =~ ^[FN][0-9]{3,}$ ]] && [[ $state == Current || $state == Deprecated ]] || error "$file" "$n" 'invalid requirement ID or state' ;;
-                    glossary) [[ $id =~ ^T[0-9]{3,}$ ]] && [[ $state == Active || $state == Deprecated ]] || error "$file" "$n" 'invalid term ID or state' ;;
-                    *) continue ;;
-                esac
+                [[ $id =~ ^T[0-9]{3,}$ ]] && [[ $state == Active || $state == Deprecated ]] || error "$file" "$n" 'invalid term ID or state'
                 get "$file" doc_id; key="$ns$sep$value/$id"
                 [[ ! ${rows["$key"]+exists} ]] || error "$file" "$n" "duplicate row ID: $id"
                 rows["$key"]=1
-                if [[ $kind == glossary ]] && (( successor_col >= 0 )); then
+                if (( successor_col >= 0 )); then
                     target=${cells[$successor_col]-}
                     if [[ -n $target && $target != なし ]]; then
                         [[ $target == */* ]] || target="$value/$target"
