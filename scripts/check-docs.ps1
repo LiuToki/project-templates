@@ -75,7 +75,7 @@ function Test-Metadata($Doc) {
     if ($t['owners'] -cne 'list') { Add-Problem $file 1 'owners must be a non-empty quoted-string list' }
     if ($t['updated'] -cne 'string' -or -not (Test-Date $m['updated'])) { Add-Problem $file 1 'updated must be a quoted valid YYYYMMDD date' }
     if ($m['type'] -cne $kind) { Add-Problem $file 1 "type must match directory: $kind" }
-    $states = @{ spec = @('Draft', 'Active', 'Deprecated'); adr = @('Active', 'Superseded', 'Deprecated'); research = @('Draft', 'Complete', 'Archived'); glossary = @('Draft', 'Active', 'Deprecated') }
+    $states = @{ spec = @('Draft', 'Active', 'Deprecated'); adr = @('Proposed', 'Accepted', 'Rejected', 'Superseded', 'Deprecated'); research = @('Draft', 'Complete', 'Archived'); glossary = @('Draft', 'Active', 'Deprecated') }
     if ($states[$kind] -cnotcontains $m['status']) { Add-Problem $file 1 "invalid $kind status" }
     $id = [string]$m['doc_id']
     if ($id -cnotmatch ('^[A-Z0-9_]+-[A-Z0-9_]+-' + $kind.ToUpperInvariant() + '-[0-9]{4}$') -or $id.EndsWith('-0000')) {
@@ -93,13 +93,17 @@ function Test-Metadata($Doc) {
         if ($m.ContainsKey($key) -and $t[$key] -cne 'list') { Add-Problem $file 1 "$key must be a non-empty quoted-string list" }
     }
     if ($kind -cne 'adr') {
-        foreach ($key in @('decision_target', 'outcome', 'decision_date', 'decision_makers', 'legacy_record', 'legacy_note', 'supersedes', 'superseded_by')) {
+        foreach ($key in @('decision_date', 'decision_makers', 'legacy_record', 'legacy_note', 'supersedes', 'superseded_by')) {
             if ($m.ContainsKey($key)) { Add-Problem $file 1 "$key is only valid on ADR" }
         }
         return
     }
-    if ($t['decision_target'] -cne 'string' -or [string]::IsNullOrWhiteSpace($m['decision_target'])) { Add-Problem $file 1 'decision_target must be a non-empty string' }
-    if ($m['outcome'] -cnotin @('Adopted', 'NotAdopted')) { Add-Problem $file 1 'outcome must be Adopted or NotAdopted' }
+    if ($m['status'] -ceq 'Proposed') {
+        foreach ($key in @('decision_date', 'decision_makers', 'legacy_record', 'legacy_note')) {
+            if ($m.ContainsKey($key)) { Add-Problem $file 1 "$key must be omitted on Proposed ADR" }
+        }
+        return
+    }
     $legacy = $m['legacy_record'] -ceq 'true' -and $t['legacy_record'] -ceq 'bool'
     if ($m.ContainsKey('legacy_record') -and -not $legacy) { Add-Problem $file 1 'legacy_record must be unquoted true or omitted' }
     $unknown = $false
@@ -142,7 +146,7 @@ function Read-Document($File, $Kind, $Namespace, $AllowPlaceholders) {
             if ($trace -and $line -cmatch '^  req:\s*(.*)$') { $key = 'trace.req'; $raw = $Matches[1] }
             elseif ($line -cmatch '^([a-z_]+):\s*(.*)$') { $key = $Matches[1]; $raw = $Matches[2] }
             else { Add-Problem $File ($i + 1) 'unsupported metadata syntax (see README)'; continue }
-            if ($key -cnotin @('doc_id', 'title', 'type', 'status', 'owners', 'updated', 'rev', 'trace.req', 'affects', 'supersedes', 'superseded_by', 'decision_target', 'outcome', 'decision_date', 'decision_makers', 'legacy_record', 'legacy_note')) {
+            if ($key -cnotin @('doc_id', 'title', 'type', 'status', 'owners', 'updated', 'rev', 'trace.req', 'affects', 'supersedes', 'superseded_by', 'decision_date', 'decision_makers', 'legacy_record', 'legacy_note')) {
                 Add-Problem $File ($i + 1) "unsupported metadata key: $key"; continue
             }
             if ($doc.Meta.ContainsKey($key)) { Add-Problem $File ($i + 1) "duplicate metadata key: $key" }
@@ -251,7 +255,7 @@ function Test-Links {
         catch { Add-Problem $link.File $link.Line 'invalid link destination'; continue }
         if ([IO.Path]::GetFileName($link.File) -ceq 'index.md' -and $byPath.ContainsKey($path) -and $byPath[$path].Kind) {
             $linked = $byPath[$path]; $status = [string]$linked.Meta['status']
-            $expected = if ($linked.Kind -ceq 'research') { 'Complete' } else { 'Active' }
+            $expected = if ($linked.Kind -ceq 'research') { 'Complete' } elseif ($linked.Kind -ceq 'adr') { 'Accepted' } else { 'Active' }
             if ($status -cne $expected -and (-not $status -or $link.Context -cnotmatch ([regex]::Escape($status) + '\s*[:：]\s*[^\s|)）]+'))) {
                 Add-Problem $link.File $link.Line "index link requires '$status`: reason' on the same line"
             }
@@ -267,6 +271,9 @@ function Test-Replacements {
     foreach ($doc in $script:Documents) {
         if ($doc.Kind -cne 'adr') { continue }
         $m = $doc.Meta; $id = [string]$m['doc_id']; $ns = $doc.Namespace
+        if ($m['status'] -cin @('Proposed', 'Rejected') -and ($m.ContainsKey('supersedes') -or $m.ContainsKey('superseded_by'))) {
+            Add-Problem $doc.Path 1 'Proposed and Rejected ADRs cannot have replacement links'
+        }
         if (($m['status'] -ceq 'Superseded') -ne [bool]$m['superseded_by']) { Add-Problem $doc.Path 1 'Superseded state and superseded_by must be set together' }
         foreach ($field in @('supersedes', 'superseded_by')) {
             $inverse = if ($field -ceq 'supersedes') { 'superseded_by' } else { 'supersedes' }

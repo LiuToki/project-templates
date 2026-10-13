@@ -113,7 +113,7 @@ validate_meta() {
     get "$file" type; [[ $value == "$kind" ]] || error "$file" 1 "type must match directory: $kind"
     get "$file" status; status=$value
     case "$kind/$status" in
-        spec/Draft|spec/Active|spec/Deprecated|adr/Active|adr/Superseded|adr/Deprecated|research/Draft|research/Complete|research/Archived|glossary/Draft|glossary/Active|glossary/Deprecated) ;;
+        spec/Draft|spec/Active|spec/Deprecated|adr/Proposed|adr/Accepted|adr/Rejected|adr/Superseded|adr/Deprecated|research/Draft|research/Complete|research/Archived|glossary/Draft|glossary/Active|glossary/Deprecated) ;;
         *) error "$file" 1 "invalid $kind status: $status" ;;
     esac
     get "$file" doc_id; id=$value
@@ -136,15 +136,17 @@ validate_meta() {
         fi
     done
     if [[ $kind != adr ]]; then
-        for key in decision_target outcome decision_date decision_makers legacy_record legacy_note supersedes superseded_by; do
+        for key in decision_date decision_makers legacy_record legacy_note supersedes superseded_by; do
             [[ ! ${meta["$file$sep$key"]+exists} ]] || error "$file" 1 "$key is only valid on ADR"
         done
         return
     fi
-    get "$file" decision_target
-    [[ ${types["$file${sep}decision_target"]-} == string ]] && nonempty "$value" || error "$file" 1 'decision_target must be a non-empty string'
-    get "$file" outcome
-    [[ $value == Adopted || $value == NotAdopted ]] || error "$file" 1 'outcome must be Adopted or NotAdopted'
+    if [[ $status == Proposed ]]; then
+        for key in decision_date decision_makers legacy_record legacy_note; do
+            [[ ! ${meta["$file$sep$key"]+exists} ]] || error "$file" 1 "$key must be omitted on Proposed ADR"
+        done
+        return
+    fi
     get "$file" legacy_record; legacy=$value
     if [[ ${meta["$file${sep}legacy_record"]+exists} && ( $legacy != true || ${types["$file${sep}legacy_record"]} != bool ) ]]; then
         error "$file" 1 'legacy_record must be unquoted true or omitted'
@@ -196,7 +198,7 @@ scan_file() {
                 key=${BASH_REMATCH[1]}; raw=${BASH_REMATCH[2]}
             else error "$file" "$n" 'unsupported metadata syntax (see README)'; continue
             fi
-            case $key in doc_id|title|type|status|owners|updated|rev|trace.req|affects|supersedes|superseded_by|decision_target|outcome|decision_date|decision_makers|legacy_record|legacy_note) ;;
+            case $key in doc_id|title|type|status|owners|updated|rev|trace.req|affects|supersedes|superseded_by|decision_date|decision_makers|legacy_record|legacy_note) ;;
                 *) error "$file" "$n" "unsupported metadata key: $key"; continue ;;
             esac
             [[ ! ${meta["$file$sep$key"]+exists} ]] || error "$file" "$n" "duplicate metadata key: $key"
@@ -319,6 +321,7 @@ check_links() {
         if [[ ${file##*/} == index.md && ${meta["$path${sep}type"]+exists} ]]; then
             get "$path" type; kind=$value; get "$path" status; status=$value
             expected=Active; [[ $kind != research ]] || expected=Complete
+            [[ $kind != adr ]] || expected=Accepted
             if [[ $status != "$expected" ]]; then
                 context=${ref_contexts[$i]}; pattern="$status[[:space:]]*[:：][[:space:]]*[^[:space:]|)）]+"
                 [[ -n $status && $context =~ $pattern ]] || error "$file" "${ref_lines[$i]}" "index link requires '$status: reason' on the same line"
@@ -338,6 +341,9 @@ check_replacements() {
         file=${files[$i]}; ns=${namespaces[$i]}
         get "$file" type; [[ $value == adr ]] || continue
         get "$file" doc_id; id=$value; get "$file" status; status=$value
+        if [[ ( $status == Proposed || $status == Rejected ) && ( ${meta["$file${sep}supersedes"]+exists} || ${meta["$file${sep}superseded_by"]+exists} ) ]]; then
+            error "$file" 1 'Proposed and Rejected ADRs cannot have replacement links'
+        fi
         get "$file" superseded_by
         if [[ $status == Superseded && -z $value || $status != Superseded && -n $value ]]; then
             error "$file" 1 'Superseded state and superseded_by must be set together'

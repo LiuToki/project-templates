@@ -33,18 +33,94 @@ unknown_key	1	replace	@SPEC@	type: spec	type: spec\ncustom: value	unsupported me
 single_quotes	0	replace	@SPEC@	type: spec	type: 'spec' # note	-
 trace	0	replace	@SPEC@	type: spec	type: spec\ntrace:\n  req: ["REQ-1"]	-
 missing_successor	1	replace	@ADR@	type: adr	type: adr\nsupersedes: ["DEMO-GLOBAL-ADR-0099"]	target ADR does not exist
-superseded_without_target	1	replace	@ADR@	status: Active	status: Superseded	Superseded state
+superseded_without_target	1	replace	@ADR@	status: Accepted	status: Superseded	Superseded state
 replacement_valid	0	copy	@ADR@	-	@ADR2@	-
 replacement_valid	0	replace	@ADR2@	DEMO-GLOBAL-ADR-0001	DEMO-GLOBAL-ADR-0002	-
-replacement_valid	0	replace	@ADR@	status: Active	status: Superseded\nsuperseded_by: ["DEMO-GLOBAL-ADR-0002"]	-
+replacement_valid	0	replace	@ADR@	status: Accepted	status: Superseded\nsuperseded_by: ["DEMO-GLOBAL-ADR-0002"]	-
 replacement_valid	0	replace	@ADR2@	type: adr	type: adr\nsupersedes: ["DEMO-GLOBAL-ADR-0001"]	-
 replacement_one_way	1	copy	@ADR@	-	@ADR2@	lacks reciprocal
 replacement_one_way	1	replace	@ADR2@	DEMO-GLOBAL-ADR-0001	DEMO-GLOBAL-ADR-0002	lacks reciprocal
-replacement_one_way	1	replace	@ADR@	status: Active	status: Superseded\nsuperseded_by: ["DEMO-GLOBAL-ADR-0002"]	lacks reciprocal
+replacement_one_way	1	replace	@ADR@	status: Accepted	status: Superseded\nsuperseded_by: ["DEMO-GLOBAL-ADR-0002"]	lacks reciprocal
 replacement_cycle	1	copy	@ADR@	-	@ADR2@	cycle in ADR replacement
 replacement_cycle	1	replace	@ADR2@	DEMO-GLOBAL-ADR-0001	DEMO-GLOBAL-ADR-0002	cycle in ADR replacement
-replacement_cycle	1	replace	@ADR@	status: Active	status: Superseded\nsuperseded_by: ["DEMO-GLOBAL-ADR-0002"]\nsupersedes: ["DEMO-GLOBAL-ADR-0002"]	cycle in ADR replacement
-replacement_cycle	1	replace	@ADR2@	status: Active	status: Superseded\nsupersedes: ["DEMO-GLOBAL-ADR-0001"]\nsuperseded_by: ["DEMO-GLOBAL-ADR-0001"]	cycle in ADR replacement
+replacement_cycle	1	replace	@ADR@	status: Accepted	status: Superseded\nsuperseded_by: ["DEMO-GLOBAL-ADR-0002"]\nsupersedes: ["DEMO-GLOBAL-ADR-0002"]	cycle in ADR replacement
+replacement_cycle	1	replace	@ADR2@	status: Accepted	status: Superseded\nsupersedes: ["DEMO-GLOBAL-ADR-0001"]\nsuperseded_by: ["DEMO-GLOBAL-ADR-0001"]	cycle in ADR replacement
+proposed_valid	0	replace	@ADR@	status: Accepted	status: Proposed	-
+proposed_valid	0	replace	@ADR@	decision_date: "20260924"	# decision_date omitted	-
+proposed_valid	0	replace	@ADR@	decision_makers: ["Port Check保守チーム"]	# decision_makers omitted	-
+proposed_with_date	1	replace	@ADR@	status: Accepted	status: Proposed	decision_date must be omitted on Proposed ADR
+proposed_with_date	1	replace	@ADR@	decision_date: "20260924"	# decision_date omitted	decision_date must be omitted on Proposed ADR
+proposed_with_date	1	replace	@ADR@	decision_makers: ["Port Check保守チーム"]	# decision_makers omitted	decision_date must be omitted on Proposed ADR
+proposed_with_date	1	replace	@ADR@	# decision_date omitted	decision_date: "20260924"	decision_date must be omitted on Proposed ADR
+proposed_with_makers	1	replace	@ADR@	status: Accepted	status: Proposed	decision_makers must be omitted on Proposed ADR
+proposed_with_makers	1	replace	@ADR@	decision_date: "20260924"	# decision_date omitted	decision_makers must be omitted on Proposed ADR
+proposed_with_makers	1	replace	@ADR@	decision_makers: ["Port Check保守チーム"]	# decision_makers omitted	decision_makers must be omitted on Proposed ADR
+proposed_with_makers	1	replace	@ADR@	# decision_makers omitted	decision_makers: ["Port Check保守チーム"]	decision_makers must be omitted on Proposed ADR
+proposed_with_null	1	replace	@ADR@	status: Accepted	status: Proposed	decision_date must be omitted on Proposed ADR
+proposed_with_null	1	replace	@ADR@	decision_date: "20260924"	# decision_date omitted	decision_date must be omitted on Proposed ADR
+proposed_with_null	1	replace	@ADR@	decision_makers: ["Port Check保守チーム"]	# decision_makers omitted	decision_date must be omitted on Proposed ADR
+proposed_with_null	1	replace	@ADR@	# decision_date omitted	decision_date: null	decision_date must be omitted on Proposed ADR
+proposed_with_legacy_record	1	replace	@ADR@	status: Accepted	status: Proposed	legacy_record must be omitted on Proposed ADR
+proposed_with_legacy_record	1	replace	@ADR@	decision_date: "20260924"	# decision_date omitted	legacy_record must be omitted on Proposed ADR
+proposed_with_legacy_record	1	replace	@ADR@	decision_makers: ["Port Check保守チーム"]	# decision_makers omitted	legacy_record must be omitted on Proposed ADR
+proposed_with_legacy_record	1	replace	@ADR@	type: adr	type: adr\nlegacy_record: true	legacy_record must be omitted on Proposed ADR
+proposed_with_legacy_note	1	replace	@ADR@	status: Accepted	status: Proposed	legacy_note must be omitted on Proposed ADR
+proposed_with_legacy_note	1	replace	@ADR@	decision_date: "20260924"	# decision_date omitted	legacy_note must be omitted on Proposed ADR
+proposed_with_legacy_note	1	replace	@ADR@	decision_makers: ["Port Check保守チーム"]	# decision_makers omitted	legacy_note must be omitted on Proposed ADR
+proposed_with_legacy_note	1	replace	@ADR@	type: adr	type: adr\nlegacy_note: "not a historical decision"	legacy_note must be omitted on Proposed ADR
+rejected_valid	0	replace	@ADR@	status: Accepted	status: Rejected	-
+deprecated_valid	0	replace	@ADR@	status: Accepted	status: Deprecated	-
+adr_active_invalid	1	replace	@ADR@	status: Accepted	status: Active	invalid adr status
+removed_outcome	1	replace	@ADR@	type: adr	type: adr\noutcome: Adopted	unsupported metadata key: outcome
+removed_decision_target	1	replace	@ADR@	type: adr	type: adr\ndecision_target: "provide CLI"	unsupported metadata key: decision_target
+accepted_missing_decision_date	1	replace	@ADR@	decision_date:	# decision_date:	decision_date must
+rejected_missing_decision_date	1	replace	@ADR@	status: Accepted	status: Rejected	decision_date must
+rejected_missing_decision_date	1	replace	@ADR@	decision_date:	# decision_date:	decision_date must
+rejected_missing_decision_makers	1	replace	@ADR@	status: Accepted	status: Rejected	decision_makers must
+rejected_missing_decision_makers	1	replace	@ADR@	decision_makers:	# decision_makers:	decision_makers must
+deprecated_missing_decision_date	1	replace	@ADR@	status: Accepted	status: Deprecated	decision_date must
+deprecated_missing_decision_date	1	replace	@ADR@	decision_date:	# decision_date:	decision_date must
+accepted_index	0	append	index.md	-	\n[CLI decision](@ADR@)\n	-
+proposed_index	1	replace	@ADR@	status: Accepted	status: Proposed	index link requires
+proposed_index	1	replace	@ADR@	decision_date: "20260924"	# decision_date omitted	index link requires
+proposed_index	1	replace	@ADR@	decision_makers: ["Port Check保守チーム"]	# decision_makers omitted	index link requires
+proposed_index	1	append	index.md	-	\n[CLI decision](@ADR@)\n	index link requires
+proposed_index_exception	0	replace	@ADR@	status: Accepted	status: Proposed	-
+proposed_index_exception	0	replace	@ADR@	decision_date: "20260924"	# decision_date omitted	-
+proposed_index_exception	0	replace	@ADR@	decision_makers: ["Port Check保守チーム"]	# decision_makers omitted	-
+proposed_index_exception	0	append	index.md	-	\n[CLI decision](@ADR@) (Proposed: review or history)\n	-
+rejected_index	1	replace	@ADR@	status: Accepted	status: Rejected	index link requires
+rejected_index	1	append	index.md	-	\n[CLI decision](@ADR@)\n	index link requires
+rejected_index_exception	0	replace	@ADR@	status: Accepted	status: Rejected	-
+rejected_index_exception	0	append	index.md	-	\n[CLI decision](@ADR@) (Rejected: review or history)\n	-
+proposed_replacement	1	copy	@ADR@	-	@ADR2@	Proposed and Rejected ADRs cannot have replacement links
+proposed_replacement	1	replace	@ADR2@	DEMO-GLOBAL-ADR-0001	DEMO-GLOBAL-ADR-0002	Proposed and Rejected ADRs cannot have replacement links
+proposed_replacement	1	replace	@ADR@	status: Accepted	status: Superseded\nsuperseded_by: ["DEMO-GLOBAL-ADR-0002"]	Proposed and Rejected ADRs cannot have replacement links
+proposed_replacement	1	replace	@ADR2@	type: adr	type: adr\nsupersedes: ["DEMO-GLOBAL-ADR-0001"]	Proposed and Rejected ADRs cannot have replacement links
+proposed_replacement	1	replace	@ADR2@	status: Accepted	status: Proposed	Proposed and Rejected ADRs cannot have replacement links
+proposed_replacement	1	replace	@ADR2@	decision_date: "20260924"	# decision_date omitted	Proposed and Rejected ADRs cannot have replacement links
+proposed_replacement	1	replace	@ADR2@	decision_makers: ["Port Check保守チーム"]	# decision_makers omitted	Proposed and Rejected ADRs cannot have replacement links
+rejected_replacement	1	copy	@ADR@	-	@ADR2@	Proposed and Rejected ADRs cannot have replacement links
+rejected_replacement	1	replace	@ADR2@	DEMO-GLOBAL-ADR-0001	DEMO-GLOBAL-ADR-0002	Proposed and Rejected ADRs cannot have replacement links
+rejected_replacement	1	replace	@ADR@	status: Accepted	status: Superseded\nsuperseded_by: ["DEMO-GLOBAL-ADR-0002"]	Proposed and Rejected ADRs cannot have replacement links
+rejected_replacement	1	replace	@ADR2@	type: adr	type: adr\nsupersedes: ["DEMO-GLOBAL-ADR-0001"]	Proposed and Rejected ADRs cannot have replacement links
+rejected_replacement	1	replace	@ADR2@	status: Accepted	status: Rejected	Proposed and Rejected ADRs cannot have replacement links
+deprecated_successor_history	0	copy	@ADR@	-	@ADR2@	-
+deprecated_successor_history	0	replace	@ADR2@	DEMO-GLOBAL-ADR-0001	DEMO-GLOBAL-ADR-0002	-
+deprecated_successor_history	0	replace	@ADR@	status: Accepted	status: Superseded\nsuperseded_by: ["DEMO-GLOBAL-ADR-0002"]	-
+deprecated_successor_history	0	replace	@ADR2@	type: adr	type: adr\nsupersedes: ["DEMO-GLOBAL-ADR-0001"]	-
+deprecated_successor_history	0	replace	@ADR2@	status: Accepted	status: Deprecated	-
+superseded_missing_date	1	copy	@ADR@	-	@ADR2@	decision_date must
+superseded_missing_date	1	replace	@ADR2@	DEMO-GLOBAL-ADR-0001	DEMO-GLOBAL-ADR-0002	decision_date must
+superseded_missing_date	1	replace	@ADR@	status: Accepted	status: Superseded\nsuperseded_by: ["DEMO-GLOBAL-ADR-0002"]	decision_date must
+superseded_missing_date	1	replace	@ADR2@	type: adr	type: adr\nsupersedes: ["DEMO-GLOBAL-ADR-0001"]	decision_date must
+superseded_missing_date	1	replace	@ADR@	decision_date:	# decision_date:	decision_date must
+proposed_successor_reference	0	copy	@ADR@	-	@ADR2@	-
+proposed_successor_reference	0	replace	@ADR2@	DEMO-GLOBAL-ADR-0001	DEMO-GLOBAL-ADR-0002	-
+proposed_successor_reference	0	replace	@ADR2@	status: Accepted	status: Proposed	-
+proposed_successor_reference	0	replace	@ADR2@	decision_date: "20260924"	# decision_date omitted	-
+proposed_successor_reference	0	replace	@ADR2@	decision_makers: ["Port Check保守チーム"]	# decision_makers omitted	-
+proposed_successor_reference	0	append	@ADR2@	-	\nPlanned replacement: [current decision](DEMO-GLOBAL-ADR-0001-cli-interface.md)\n	-
 template_skipped	0	put	spec/_template.md	-	{{template}}\n	-
 nested_template_checked	1	put	spec/nested/_template.md	-	{{not exempt}}\n	front matter must start
 duplicate_term	1	put	glossary/DEMO-GLOBAL-GLOSSARY-0001-terms.md	-	---\ndoc_id: "DEMO-GLOBAL-GLOSSARY-0001"\ntitle: "Terms"\ntype: glossary\nstatus: Active\nowners: ["Team"]\nupdated: "20260924"\n---\n| ID | 状態 | 後継ID |\n|---|---|---|\n| T001 | Active | なし |\n| T001 | Active | なし |\n	duplicate row ID
