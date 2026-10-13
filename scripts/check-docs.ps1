@@ -190,23 +190,20 @@ function Read-Document($File, $Kind, $Namespace, $AllowPlaceholders) {
         }
         $raw = [regex]::Replace($raw, $pattern, '')
         if ($raw.Contains('](')) { Add-Problem $File $number 'unsupported or malformed link; encode parentheses/spaces in the destination' }
-        if ($Kind -and $content.StartsWith('|')) {
+        if ($Kind -ceq 'glossary' -and $content.StartsWith('|')) {
             $cells = @($content.Replace('\|', [string][char]29).Split('|') | ForEach-Object { $_.Trim().Replace('`', '') })
             if ($cells.Count -gt 1 -and $cells[1] -ceq 'ID') { $headers = $cells; continue }
             $idColumn = [array]::IndexOf($headers, 'ID'); $stateColumn = [array]::IndexOf($headers, '状態')
-            if ($idColumn -ge 0 -and $stateColumn -ge 0 -and $Kind -cin @('spec', 'glossary')) {
+            if ($idColumn -ge 0 -and $stateColumn -ge 0) {
                 $id = if ($idColumn -lt $cells.Count) { $cells[$idColumn] } else { '' }
                 $state = if ($stateColumn -lt $cells.Count) { $cells[$stateColumn] } else { '' }
                 if ($id.Contains('---')) { continue }
-                if ($Kind -ceq 'spec') {
-                    if ($id -cnotmatch '^[FN][0-9]{3,}$' -or $state -cnotin @('Current', 'Deprecated')) { Add-Problem $File $number 'invalid requirement ID or state' }
-                }
-                elseif ($id -cnotmatch '^T[0-9]{3,}$' -or $state -cnotin @('Active', 'Deprecated')) { Add-Problem $File $number 'invalid term ID or state' }
+                if ($id -cnotmatch '^T[0-9]{3,}$' -or $state -cnotin @('Active', 'Deprecated')) { Add-Problem $File $number 'invalid term ID or state' }
                 $fullId = $doc.Meta['doc_id'] + '/' + $id; $key = $Namespace + $script:Sep + $fullId
                 if ($script:Terms.ContainsKey($key)) { Add-Problem $File $number "duplicate row ID: $id" }
                 $script:Terms[$key] = $true
                 $successor = [array]::IndexOf($headers, '後継ID')
-                if ($Kind -ceq 'glossary' -and $successor -ge 0 -and $successor -lt $cells.Count) {
+                if ($successor -ge 0 -and $successor -lt $cells.Count) {
                     $target = $cells[$successor]
                     if ($target -and $target -cne 'なし') {
                         if (-not $target.Contains('/')) { $target = $doc.Meta['doc_id'] + '/' + $target }

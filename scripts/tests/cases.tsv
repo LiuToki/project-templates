@@ -1,11 +1,11 @@
 # case	exit	operation	file	before	after	diagnostic
 valid	0	noop	-	-	-	-
 missing_owner	1	replace	@SPEC@	owners:	# owners:	owners must
-invalid_date	1	replace	@SPEC@	20260924	20260230	updated must
-unquoted_date	1	replace	@SPEC@	updated: "20260924"	updated: 20260924	updated must
+invalid_date	1	replace	@SPEC@	20261013	20260230	updated must
+unquoted_date	1	replace	@SPEC@	updated: "20261013"	updated: 20261013	updated must
 duplicate_doc	1	copy	@SPEC@	-	@SPEC2@	duplicate doc_id
-duplicate_requirement	1	replace	@SPEC@	F002	F001	duplicate row ID
-invalid_row_state	1	replace	@SPEC@	Current	Draft	invalid requirement ID or state
+spec_local_table	0	append	@SPEC@	-	\n| ID | 状態 |\n|---|---|\n| example | Ready |\n| example | Closed |\n	-
+spec_document_status	1	replace	@SPEC@	status: Active	status: Current	invalid spec status
 placeholder	1	append	@SPEC@	-	\n{{missing}}\n	unfilled placeholder
 inline_placeholder	1	append	@SPEC@	-	\n`{{missing}}`\n	unfilled placeholder
 multiline_placeholder	1	append	@SPEC@	-	\n{{missing\nvalue}}\n	unfilled placeholder
@@ -126,3 +126,7 @@ nested_template_checked	1	put	spec/nested/_template.md	-	{{not exempt}}\n	front 
 duplicate_term	1	put	glossary/DEMO-GLOBAL-GLOSSARY-0001-terms.md	-	---\ndoc_id: "DEMO-GLOBAL-GLOSSARY-0001"\ntitle: "Terms"\ntype: glossary\nstatus: Active\nowners: ["Team"]\nupdated: "20260924"\n---\n| ID | 状態 | 後継ID |\n|---|---|---|\n| T001 | Active | なし |\n| T001 | Active | なし |\n	duplicate row ID
 missing_term	1	put	glossary/DEMO-GLOBAL-GLOSSARY-0001-terms.md	-	---\ndoc_id: "DEMO-GLOBAL-GLOSSARY-0001"\ntitle: "Terms"\ntype: glossary\nstatus: Active\nowners: ["Team"]\nupdated: "20260924"\n---\n| ID | 状態 | 後継ID |\n|---|---|---|\n| T001 | Deprecated | T002 |\n	successor term ID does not exist
 valid_term	0	put	glossary/DEMO-GLOBAL-GLOSSARY-0001-terms.md	-	---\ndoc_id: "DEMO-GLOBAL-GLOSSARY-0001"\ntitle: "Terms"\ntype: glossary\nstatus: Active\nowners: ["Team"]\nupdated: "20260924"\n---\n| ID | 状態 | 後継ID |\n|---|---|---|\n| T001 | Deprecated | T002 |\n| T002 | Active | なし |\n	-
+invalid_term_id	1	put	glossary/DEMO-GLOBAL-GLOSSARY-0001-terms.md	-	---\ndoc_id: "DEMO-GLOBAL-GLOSSARY-0001"\ntitle: "Terms"\ntype: glossary\nstatus: Active\nowners: ["Team"]\nupdated: "20260924"\n---\n| ID | 状態 | 後継ID |\n|---|---|---|\n| invalid | Active | なし |\n	invalid term ID or state
+invalid_term_state	1	put	glossary/DEMO-GLOBAL-GLOSSARY-0001-terms.md	-	---\ndoc_id: "DEMO-GLOBAL-GLOSSARY-0001"\ntitle: "Terms"\ntype: glossary\nstatus: Active\nowners: ["Team"]\nupdated: "20260924"\n---\n| ID | 状態 | 後継ID |\n|---|---|---|\n| T001 | Current | なし |\n	invalid term ID or state
+collapsed_reference_link	1	append	@SPEC@	-	\n[x][]\n	reference-style links are unsupported
+reference_definition	1	append	@SPEC@	-	\n[guide]: missing.md\n	reference-style links are unsupported
